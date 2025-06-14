@@ -1,3 +1,4 @@
+import { Character } from "../components/character";
 import { Camera } from "../entities/camera";
 import { Controller } from "../entities/controller";
 import { Cursor } from "../entities/cursor";
@@ -8,13 +9,7 @@ export function DebugLevel() {
     <>
       <Camera position={[0, 3, 0]} rotation={[-0.87, -0.56, -0.57]} />
       <Controller speed={5}>
-        <mesh castShadow position={[0, 0.4, 0]} receiveShadow>
-          <boxGeometry args={[0.3, 0.8, 0.3]} />
-          <meshStandardMaterial color="red" />
-        </mesh>
-        <mesh position={[0, 0.64, 0.17]}>
-          <boxGeometry args={[0.1, 0.1, 0.1]} />
-        </mesh>
+        <Character />
       </Controller>
       <Cursor />
       <Land>
