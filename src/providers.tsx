@@ -3,7 +3,10 @@ import { createWorld } from "koota";
 import { useWorld, WorldProvider } from "koota/react";
 import { createContext, use, useMemo, type ReactNode } from "react";
 import { cameraFollowFocused } from "../src/entities/camera/systems";
-import { velocityTowardsTarget } from "../src/entities/controller/systems";
+import {
+  velocityTowardsTarget,
+  lookAtTarget,
+} from "../src/entities/controller/systems";
 import { useCursorPositionFromLand } from "../src/entities/land/systems";
 import { meshFromPosition, positionFromVelocity } from "../src/shared/systems";
 
@@ -56,6 +59,8 @@ export function KootaSystems({
     if (cameraFollowFocusedSystem) {
       cameraFollowFocused(world, delta);
     }
+
+    lookAtTarget(world, delta);
   });
 
   return <NestedCheck value>{children}</NestedCheck>;

@@ -12,6 +12,9 @@ export function DebugLevel() {
           <boxGeometry args={[0.3, 0.8, 0.3]} />
           <meshStandardMaterial color="red" />
         </mesh>
+        <mesh position={[0, 0.64, 0.17]}>
+          <boxGeometry args={[0.1, 0.1, 0.1]} />
+        </mesh>
       </Controller>
       <Cursor />
       <Land>

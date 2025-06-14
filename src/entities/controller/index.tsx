@@ -28,7 +28,7 @@ export function Controller({
       Mesh(ref.current),
       Position({ x, y, z }),
       Speed({ value: speed }),
-      Velocity,
+      Velocity
     );
 
     return () => {
