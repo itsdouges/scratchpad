@@ -1,6 +1,6 @@
 import { distance, multiply, normalize, subtract } from "../../shared/math";
 import { Mesh, Position, Target, Velocity } from "../../shared/traits";
-import { type ECSSystem } from "../../types";
+import { createSystem } from "@triplex/api/koota";
 import { Controllable, Speed } from "./traits";
 
 /**
@@ -8,7 +8,7 @@ import { Controllable, Speed } from "./traits";
  * target position. When the entity is close to the target, it slows down and
  * eventually stops.
  */
-export const velocityTowardsTarget: ECSSystem = (world, delta) => {
+export const velocityTowardsTarget = createSystem((world, delta) => {
   const entities = world.query(Controllable, Position, Velocity);
   const target = world.queryFirst(Position, Target);
 
@@ -41,9 +41,9 @@ export const velocityTowardsTarget: ECSSystem = (world, delta) => {
       entity.set(Velocity, targetVelocity);
     }
   }
-};
+});
 
-export const lookAtTarget: ECSSystem = (world) => {
+export const lookAtTarget = createSystem((world) => {
   const entities = world.query(Controllable, Velocity, Mesh);
   const target = world.queryFirst(Position, Target);
   const targetPosition = target?.get(Position);
@@ -67,4 +67,4 @@ export const lookAtTarget: ECSSystem = (world) => {
       r.z = Math.round(r.z / (Math.PI / 4)) * (Math.PI / 4);
     }
   }
-};
+}, "lookAtTarget");

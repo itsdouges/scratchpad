@@ -1,9 +1,9 @@
+import { createSystem } from "@triplex/api/koota";
 import { add, multiply } from "../shared/math";
-import { type ECSSystem } from "../types";
 import { Mesh, Position, Velocity } from "./traits";
 
 /** Copies the position trait value to the Three.js mesh position. */
-export const meshFromPosition: ECSSystem = (world) => {
+export const meshFromPosition = createSystem((world) => {
   const entities = world.query(Position, Mesh);
 
   for (const entity of entities) {
@@ -14,10 +14,10 @@ export const meshFromPosition: ECSSystem = (world) => {
       mesh.position.set(position.x, position.y, position.z);
     }
   }
-};
+});
 
 /** Updates the position trait value based on the velocity and delta time. */
-export const positionFromVelocity: ECSSystem = (world, delta) => {
+export const positionFromVelocity = createSystem((world, delta) => {
   const entities = world.query(Position, Velocity);
 
   for (const entity of entities) {
@@ -30,4 +30,4 @@ export const positionFromVelocity: ECSSystem = (world, delta) => {
       entity.set(Position, nextPosition);
     }
   }
-};
+});

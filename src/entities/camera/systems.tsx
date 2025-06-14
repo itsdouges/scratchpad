@@ -1,6 +1,7 @@
 import { damp } from "../../shared/math";
+import { createSystem } from "@triplex/api/koota";
 import { Focused, Position } from "../../shared/traits";
-import { type ECSSystem, type Vector3 } from "../../types";
+import { type Vector3 } from "../../types";
 import { Camera } from "./traits";
 
 /**
@@ -8,7 +9,7 @@ import { Camera } from "./traits";
  * position. If there is no focused entity or camera entity no changes are
  * made.
  */
-export const cameraFollowFocused: ECSSystem = (world, delta) => {
+export const cameraFollowFocused = createSystem((world, delta) => {
   const focused = world.queryFirst(Focused, Position);
   const camera = world.queryFirst(Camera, Position);
 
@@ -33,4 +34,4 @@ export const cameraFollowFocused: ECSSystem = (world, delta) => {
   } else {
     camera.set(Position, damp(cameraPosition, target, lambda, delta));
   }
-};
+});
