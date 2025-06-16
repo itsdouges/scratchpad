@@ -87,6 +87,8 @@ export function CharacterHead({
       nextIndex = 2;
     } else if (absoluteAngle < 160 && absoluteAngle >= 120) {
       nextIndex = 3;
+    } else {
+      nextIndex = 4;
     }
 
     if (typeof nextIndex === "number") {
@@ -101,9 +103,13 @@ export function CharacterHead({
       <group ref={ref} />
       <Billboard>
         <group position={position}>
-          <mesh scale={[face?.reverse ? -1 : 1, 1, 1]} visible={!!face}>
+          <mesh
+            scale={[face?.reverse ? -1 : 1, 1, 1]}
+            visible={face ? !!textures[face.index] : false}
+          >
             <planeGeometry />
             <meshBasicMaterial
+              alphaToCoverage
               map={face ? textures[face.index] : undefined}
               transparent
             />
