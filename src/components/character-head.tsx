@@ -120,11 +120,11 @@ export function CharacterHead({
               map={face ? textures[face.index] : undefined}
               transparent
               vertexShader={`
-void main() {
-  vec4 mv = modelViewMatrix * vec4(position, 1.0);
-  mv.z += 0.2;
-  csm_PositionRaw = projectionMatrix * mv;
-}
+                void main() {
+                  vec4 mv = modelViewMatrix * vec4(position, 1.0);
+                  mv.z += 0.2;
+                  csm_PositionRaw = projectionMatrix * mv;
+                }
               `}
               baseMaterial={MeshBasicMaterial}
             />

@@ -29,12 +29,12 @@ export function CharacterHair({
         map={texture}
         transparent
         vertexShader={`
-void main() {
-  vec4 mv = modelViewMatrix * vec4(position, 1.0);
-  mv.z += 0.1;
-  csm_PositionRaw = projectionMatrix * mv;
-}
-              `}
+          void main() {
+            vec4 mv = modelViewMatrix * vec4(position, 1.0);
+            mv.z += 0.1;
+            csm_PositionRaw = projectionMatrix * mv;
+          }
+        `}
         baseMaterial={MeshBasicMaterial}
       />
     </DataMesh>
