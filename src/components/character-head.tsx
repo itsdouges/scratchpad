@@ -109,7 +109,7 @@ export function CharacterHead({
           >
             <planeGeometry />
             <meshBasicMaterial
-              alphaToCoverage
+              alphaTest={0.5}
               map={face ? textures[face.index] : undefined}
               transparent
             />

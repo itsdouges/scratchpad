@@ -14,7 +14,7 @@ export function CharacterHair({ visible = 0 }: { visible?: number }) {
       data={data}
       position={[0, -0.27, 0]}
     >
-      <meshBasicMaterial alphaToCoverage transparent map={texture} />
+      <meshBasicMaterial alphaTest={0.5} transparent map={texture} />
     </DataMesh>
   );
 }
