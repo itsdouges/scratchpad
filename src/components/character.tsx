@@ -1,17 +1,11 @@
 import { CharacterHead } from "./character-head";
+import { CharacterBody } from "./character-body";
 
 export function Character() {
   return (
     <group>
-      <CharacterHead />
-      <mesh castShadow position={[0, 0.4, 0]} receiveShadow>
-        <boxGeometry args={[0.3, 0.8, 0.3]} />
-        <meshStandardMaterial color="red" />
-      </mesh>
-      <mesh castShadow position={[0, 0.4, 0]} receiveShadow>
-        <boxGeometry args={[1, 0.3, 0.3]} />
-        <meshStandardMaterial color="blue" />
-      </mesh>
+      <CharacterHead position={[0, 4.3, 0.23]} />
+      <CharacterBody />
     </group>
   );
 }

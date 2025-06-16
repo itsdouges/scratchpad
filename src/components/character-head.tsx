@@ -1,7 +1,8 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { useTexture, Billboard } from "@react-three/drei";
-import { useReducer, useRef, useState } from "react";
+import { useReducer, useRef } from "react";
 import { Group, Vector3, MathUtils, SRGBColorSpace } from "three";
+import { CharacterHair } from "./character-hair";
 
 const v1 = new Vector3();
 const v2 = new Vector3();
@@ -29,7 +30,11 @@ function faceReducer(
   return nextState;
 }
 
-export function CharacterHead() {
+export function CharacterHead({
+  position,
+}: {
+  position?: [x: number, y: number, z: number];
+}) {
   const camera = useThree((state) => state.camera);
   const ref = useRef<Group>(null);
   const [face, setFace] = useReducer(faceReducer, { index: 0, reverse: false });
@@ -95,7 +100,7 @@ export function CharacterHead() {
     <>
       <group ref={ref} />
       <Billboard>
-        <group position={[0, 0.88, 0]}>
+        <group position={position}>
           <mesh scale={[face?.reverse ? -1 : 1, 1, 1]} visible={!!face}>
             <planeGeometry />
             <meshBasicMaterial
@@ -104,6 +109,7 @@ export function CharacterHead() {
               transparent
             />
           </mesh>
+          <CharacterHair />
         </group>
       </Billboard>
     </>
