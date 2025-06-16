@@ -114,9 +114,7 @@ export function CharacterHead({
               transparent
             />
           </mesh>
-          <group scale={[face?.reverse ? 1 : -1, 1, 1]}>
-            <CharacterHair visible={face?.index} />
-          </group>
+          <CharacterHair reverse={!face?.reverse} visible={face?.index} />
         </group>
       </Billboard>
     </>
