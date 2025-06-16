@@ -7,11 +7,7 @@ export function CharacterBody() {
   const texture = useTexture("/assets/classes/warrior.png");
 
   return (
-    <DataMesh
-      rotation={[0, MathUtils.degToRad(-180), 0]}
-      scale={0.065}
-      data={data}
-    >
+    <DataMesh rotation={[0, MathUtils.degToRad(-180), 0]} data={data}>
       <meshBasicMaterial map={texture} />
     </DataMesh>
   );

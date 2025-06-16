@@ -1,15 +1,9 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { useTexture, Billboard } from "@react-three/drei";
+import { Billboard } from "@react-three/drei";
 import { useReducer, useRef } from "react";
-import {
-  Group,
-  Vector3,
-  MathUtils,
-  SRGBColorSpace,
-  MeshBasicMaterial,
-} from "three";
+import { Group, Vector3, MathUtils } from "three";
 import { CharacterHair } from "./character-hair";
-import CustomShaderMaterial from "three-custom-shader-material";
+import { CharacterFace } from "./character-face";
 
 const v1 = new Vector3();
 const v2 = new Vector3();
@@ -45,18 +39,6 @@ export function CharacterHead({
   const camera = useThree((state) => state.camera);
   const ref = useRef<Group>(null);
   const [face, setFace] = useReducer(faceReducer, { index: 0, reverse: false });
-  const textures = useTexture(
-    [
-      "/assets/faces/messy/face_1.png",
-      "/assets/faces/messy/face_2.png",
-      "/assets/faces/messy/face_3.png",
-      "/assets/faces/messy/face_4.png",
-    ],
-    (textures) =>
-      textures.forEach((texture) => {
-        texture.colorSpace = SRGBColorSpace;
-      })
-  );
 
   useFrame(() => {
     if (!ref.current) {
@@ -99,7 +81,7 @@ export function CharacterHead({
     }
 
     if (typeof nextIndex === "number") {
-      setFace({ index: nextIndex, reverse: angle < 0 });
+      setFace({ index: nextIndex, reverse: angle > 0 });
     } else {
       setFace(undefined);
     }
@@ -110,26 +92,8 @@ export function CharacterHead({
       <group ref={ref} />
       <group position={position}>
         <Billboard>
-          <mesh
-            scale={[face?.reverse ? -1 : 1, 1, 1]}
-            visible={face ? !!textures[face.index] : false}
-          >
-            <planeGeometry />
-            <CustomShaderMaterial
-              alphaTest={0.5}
-              map={face ? textures[face.index] : undefined}
-              transparent
-              vertexShader={`
-                void main() {
-                  vec4 mv = modelViewMatrix * vec4(position, 1.0);
-                  mv.z += 0.2;
-                  csm_PositionRaw = projectionMatrix * mv;
-                }
-              `}
-              baseMaterial={MeshBasicMaterial}
-            />
-          </mesh>
-          <CharacterHair reverse={!face?.reverse} visible={face?.index} />
+          <CharacterFace reverse={face?.reverse} index={face?.index} />
+          <CharacterHair reverse={face?.reverse} index={face?.index} />
         </Billboard>
       </group>
     </>

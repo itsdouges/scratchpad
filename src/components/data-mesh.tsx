@@ -16,11 +16,11 @@ export interface DrawRange {
 export function DataMesh({
   children,
   data,
-  visible = true,
+  index = true,
   ...props
 }: Omit<ThreeElements["group"], "visible"> & {
   data: MeshData;
-  visible?: boolean | number;
+  index?: boolean | number;
 }) {
   const ref = useRef<Mesh>(null);
   const drawRanges = useRef<DrawRange[]>([]);
@@ -71,20 +71,20 @@ export function DataMesh({
       return;
     }
 
-    if (visible === false) {
+    if (index === false) {
       geometry.setDrawRange(0, 0);
-    } else if (visible === true) {
+    } else if (index === true) {
       geometry.setDrawRange(0, Infinity);
     } else {
-      const range = drawRanges.current[visible];
+      const range = drawRanges.current.at(index);
+
       if (range) {
         geometry.setDrawRange(range.start, range.count);
       } else {
-        console.warn(`No draw range found for index ${visible}`);
-        geometry.setDrawRange(0, Infinity);
+        geometry.setDrawRange(0, 0);
       }
     }
-  }, [visible]);
+  }, [index]);
 
   return (
     <group {...props}>
