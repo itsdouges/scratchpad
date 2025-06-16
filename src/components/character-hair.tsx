@@ -1,7 +1,8 @@
 import { DataMesh } from "./data-mesh";
 import data from "../../public/assets/faces/messy/hair.json";
 import { useTexture } from "@react-three/drei";
-import { MathUtils } from "three";
+import { MathUtils, MeshBasicMaterial } from "three";
+import CustomShaderMaterial from "three-custom-shader-material";
 
 export function CharacterHair({
   visible = 0,
@@ -23,7 +24,19 @@ export function CharacterHair({
       data={data}
       position={[0, -0.27, 0]}
     >
-      <meshBasicMaterial alphaTest={0.5} transparent map={texture} />
+      <CustomShaderMaterial
+        alphaTest={0.5}
+        map={texture}
+        transparent
+        vertexShader={`
+void main() {
+  vec4 mv = modelViewMatrix * vec4(position, 1.0);
+  mv.z += 0.1;
+  csm_PositionRaw = projectionMatrix * mv;
+}
+              `}
+        baseMaterial={MeshBasicMaterial}
+      />
     </DataMesh>
   );
 }

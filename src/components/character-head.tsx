@@ -1,8 +1,15 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { useTexture, Billboard } from "@react-three/drei";
 import { useReducer, useRef } from "react";
-import { Group, Vector3, MathUtils, SRGBColorSpace } from "three";
+import {
+  Group,
+  Vector3,
+  MathUtils,
+  SRGBColorSpace,
+  MeshBasicMaterial,
+} from "three";
 import { CharacterHair } from "./character-hair";
+import CustomShaderMaterial from "three-custom-shader-material";
 
 const v1 = new Vector3();
 const v2 = new Vector3();
@@ -101,22 +108,30 @@ export function CharacterHead({
   return (
     <>
       <group ref={ref} />
-      <Billboard>
-        <group position={position}>
+      <group position={position}>
+        <Billboard>
           <mesh
             scale={[face?.reverse ? -1 : 1, 1, 1]}
             visible={face ? !!textures[face.index] : false}
           >
             <planeGeometry />
-            <meshBasicMaterial
+            <CustomShaderMaterial
               alphaTest={0.5}
               map={face ? textures[face.index] : undefined}
               transparent
+              vertexShader={`
+void main() {
+  vec4 mv = modelViewMatrix * vec4(position, 1.0);
+  mv.z += 0.2;
+  csm_PositionRaw = projectionMatrix * mv;
+}
+              `}
+              baseMaterial={MeshBasicMaterial}
             />
           </mesh>
           <CharacterHair reverse={!face?.reverse} visible={face?.index} />
-        </group>
-      </Billboard>
+        </Billboard>
+      </group>
     </>
   );
 }
