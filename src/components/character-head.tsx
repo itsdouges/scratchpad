@@ -56,6 +56,7 @@ export function CharacterHead() {
       .setY(0)
       .normalize()
       .negate();
+
     const characterDirection = ref.current
       .getWorldDirection(v2)
       .setY(0)
