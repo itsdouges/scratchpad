@@ -104,12 +104,13 @@ export function CharacterHead({
           <mesh scale={[face?.reverse ? -1 : 1, 1, 1]} visible={!!face}>
             <planeGeometry />
             <meshBasicMaterial
-              depthTest={false}
               map={face ? textures[face.index] : undefined}
               transparent
             />
           </mesh>
-          <CharacterHair />
+          <group scale={[face?.reverse ? 1 : -1, 1, 1]}>
+            <CharacterHair visible={face?.index} />
+          </group>
         </group>
       </Billboard>
     </>
